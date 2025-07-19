@@ -60,6 +60,20 @@ export const matchedContacts = async(data: Data)=>{
     }
 
 }
+//update linkPrecedence
+export const updateContact = async(id: number, linkedId: number)=>{
+    try {
+        return await prisma.contact.update({
+            where: {id},
+            data:{
+                linkPrecedence: "SECONDARY",
+                linkedId: linkedId
+            }
+        })
+    } catch (error) {
+        console.error(`There's an error:`,error)
+    }
+}
 // create contact linking with primary contact id
 export const secondaryOrder = async(data: Data)=>{
     try {

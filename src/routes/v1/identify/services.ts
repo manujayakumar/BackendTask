@@ -1,6 +1,16 @@
-import {orderList, identifyOrder, matchedContacts, secondaryOrder, gatherContacts} from "./model";
-import { Data } from "../../../types";
+import {orderList, identifyOrder, matchedContacts,updateContact, secondaryOrder, gatherContacts} from "./model";
+import { Contact, Data } from "../../../types";
 
+function formatContactResponse(primaryId:number, contacts:Contact[]){
+    return{
+        contact: {
+            primaryContactId: primaryId,
+            emails: Array.from (new Set(contacts.map(c => c.email).filter(Boolean))),
+            phoneNumbers: Array.from(new Set(contacts.map(c=> c.phoneNumber).filter(Boolean))),
+            secondaryContactIds: contacts.filter(c=>c.linkPrecedence === "SECONDARY").map(c=> c.id),
+        }
+    };
+}
 export const identifyService ={
 
     getList: async() =>{
@@ -30,54 +40,53 @@ export const identifyService ={
             const dulplicateContact = await matchedContacts(newData);
             console.log(dulplicateContact);
 
-            if(dulplicateContact?.length === 0){
+            if(!dulplicateContact || dulplicateContact?.length === 0){
                 //create new contact
-                const newContact = await identifyOrder(newData);
-                return {
-                    contact:{
-                        primaryContactId: newContact?.id,
-                        emails: [newContact?.email].filter(Boolean),
-                        phoneNumbers: [newContact?.phoneNumber].filter(Boolean),
-                        secondaryContactIds: []
+                const newContact = await identifyOrder({...newData, linkPrecedence: "PRIMARY"});
+                if(newContact)
+                return formatContactResponse(newContact?.id, [newContact])
+            }
+            // find the primary contact
+            //Find oldest contact to be the real primary
+            if(dulplicateContact){
+                const sortedContacts = dulplicateContact.sort(
+                (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+                );
+            
+            
+            const primaryContact = sortedContacts[0];
+            //determin actual primary
+            if(dulplicateContact)
+                for(const contact of dulplicateContact){
+                    if(contact.id !== primaryContact.id && contact.linkPrecedence === "PRIMARY"){
+                        await updateContact(contact.id, primaryContact.id);
                     }
                 }
-            }else{
-            // find the primary contact
-            const primaryContact =  dulplicateContact?.find(contact => contact.linkPrecedence === "PRIMARY") || dulplicateContact?.[0];
-            if (!primaryContact) {
-                console.log('No primary contact found.');
-                return;
-            }
             //check if new info and needs to be linked
-            const existingContact = dulplicateContact?.some(contact =>{
-                contact.email === newData.email && contact.phoneNumber === newData.phoneNumber
-            });
+            // const existingContact = dulplicateContact?.some(contact =>{
+            //     contact.email === newData.email && contact.phoneNumber === newData.phoneNumber
+            // });
 
-            if(!existingContact){
-                const newValue = {
-                    email: newData.email,
-                    phoneNumber: newData.phoneNumber,
-                    linkedId: primaryContact?.id,
-                }
-                const newContact = await secondaryOrder(newValue);
+            const emailExist = dulplicateContact.some(contact => contact.email === newData.email);
+            const phoneExist = dulplicateContact.some(contact => contact.phoneNumber === newData.phoneNumber);
+
+            const isNewInfo = !(emailExist && phoneExist);
+
+
+
+            if(isNewInfo){
+        
+                await secondaryOrder({
+                    ...newData,
+                    linkedId: primaryContact.id
+                });
             }
             //Gather all linked contacts
-
             const relatedContacts = await gatherContacts(primaryContact?.id );
-            const emails = Array.from(new Set(relatedContacts?.map(contact => contact.email).filter(Boolean)));
-            const phoneNumbers = Array.from(new Set(relatedContacts?.map(contact=> contact.phoneNumber).filter(Boolean)));
-            const secondaryContactIds = relatedContacts?.filter(contact => contact.linkPrecedence === "SECONDARY").map(contact => contact.id);
-
-            return {
-                contact:{
-                    primaryContactId: primaryContact.id,
-                    emails,
-                    phoneNumbers,
-                    secondaryContactIds
-                }
-            }
+            if(relatedContacts)
+            return formatContactResponse(primaryContact.id, relatedContacts)
             
-        }
+            }
            
         } catch (error) {
             console.error("Something occured", error);
