@@ -1,4 +1,4 @@
-import {orderList, identifyOrder, matchedContacts} from "./model";
+import {orderList, identifyOrder, matchedContacts, secondaryOrder} from "./model";
 import { Data } from "../../../types";
 
 export const identifyService ={
@@ -41,7 +41,28 @@ export const identifyService ={
                         secondaryContactIds: []
                     }
                 }
+            }else{
+            // find the primary contact
+            const primaryContact =  dulplicateContact?.find(contact => contact.linkPrecedence === "PRIMARY") || dulplicateContact?.[0];
+            if (!primaryContact) {
+                console.log('No primary contact found.');
+                return;
             }
+            //check if new info and needs to be linked
+            const existingContact = dulplicateContact?.some(contact =>{
+                contact.email === newData.email && contact.phoneNumber === newData.phoneNumber
+            });
+
+            if(!existingContact){
+                const newValue = {
+                    email: newData.email,
+                    phoneNumber: newData.phoneNumber,
+                    linkedId: primaryContact?.id,
+                }
+                const newContact = await secondaryOrder(newValue);
+            }
+            
+        }
            
         } catch (error) {
             console.error("Something occured", error);

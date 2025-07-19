@@ -60,3 +60,19 @@ export const matchedContacts = async(data: Data)=>{
     }
 
 }
+
+export const secondaryOrder = async(data: Data)=>{
+    try {
+
+        return await prisma.contact.create({
+            data:{
+                email: data.email,
+                phoneNumber: data.phoneNumber,
+                linkPrecedence: "SECONDARY",
+                linkedId: data.linkedId
+            }
+        })
+    } catch (error) {
+        console.error(`There's an error:`,error)
+    }
+}
