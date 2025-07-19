@@ -1,4 +1,4 @@
-import {orderList, identifyOrder, matchedContacts, secondaryOrder} from "./model";
+import {orderList, identifyOrder, matchedContacts, secondaryOrder, gatherContacts} from "./model";
 import { Data } from "../../../types";
 
 export const identifyService ={
@@ -60,6 +60,21 @@ export const identifyService ={
                     linkedId: primaryContact?.id,
                 }
                 const newContact = await secondaryOrder(newValue);
+            }
+            //Gather all linked contacts
+
+            const relatedContacts = await gatherContacts(primaryContact?.id );
+            const emails = Array.from(new Set(relatedContacts?.map(contact => contact.email).filter(Boolean)));
+            const phoneNumbers = Array.from(new Set(relatedContacts?.map(contact=> contact.phoneNumber).filter(Boolean)));
+            const secondaryContactIds = relatedContacts?.filter(contact => contact.linkPrecedence === "SECONDARY").map(contact => contact.id);
+
+            return {
+                contact:{
+                    primaryContactId: primaryContact.id,
+                    emails,
+                    phoneNumbers,
+                    secondaryContactIds
+                }
             }
             
         }

@@ -60,7 +60,7 @@ export const matchedContacts = async(data: Data)=>{
     }
 
 }
-
+// create contact linking with primary contact id
 export const secondaryOrder = async(data: Data)=>{
     try {
 
@@ -73,6 +73,24 @@ export const secondaryOrder = async(data: Data)=>{
             }
         })
     } catch (error) {
+        console.error(`There's an error:`,error)
+    }
+}
+// Grouping contacts
+export const gatherContacts = async(id: number)=>{
+    try{
+        return await prisma.contact.findMany({
+            where:{
+                OR:[
+                    {id: id},
+                    {linkedId: id}
+                ]
+            },
+            orderBy:{
+                createdAt: "asc"
+            }
+        })
+    }catch (error) {
         console.error(`There's an error:`,error)
     }
 }
