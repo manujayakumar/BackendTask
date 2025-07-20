@@ -5,7 +5,7 @@
   "main": "src/service.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "prism generate && tsc",
     "dev": "nodemon",
     "start": "node ./dist/service.js"
   },
