@@ -6,11 +6,7 @@ import v1 from "./routes/v1";
 import job from "./cron";
 
 const app = express();
-
-if(config.env === "production"){
-    job.start(); 
-}
-
+job.start(); 
 app
     .disable("x-powered-by")
     .use(morgan("dev"))
