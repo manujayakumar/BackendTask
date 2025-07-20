@@ -79,6 +79,7 @@ Create a .env file:
 
 ```env
 DATABASE_URL="postgresql://user:password@host:port/dbname?schema=public"
+DIRECT_URL="postgresql://user:password@host:port/dbname?schema=public"
 PORT=4000
 ```
 4. Setup Prisma and Migrate
