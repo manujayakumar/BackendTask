@@ -8,7 +8,7 @@ const job = new CronJob("*/14 * * * *", function(){
     console.error("API_URL is not defined in environment variables.");
     return;
   }
-    https.get(`${apiUrl}/health`, (res) => {
+    https.get(apiUrl, (res) => {
         if(res.statusCode === 200){
             console.log("GET request sent successsfully");
         }else{
