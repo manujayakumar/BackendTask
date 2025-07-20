@@ -140,5 +140,5 @@ Way Of Life At Bitespeed
 ## 🤝 Author
 Manu Jayakumar</br>
 💼 [LinkedIn](https://www.linkedin.com/in/manu-jayakumar-228782145/)</br>
-📧 [manu.jayakumar0@gmail.com](mailto:manu.jayakumar0@gmail.com)
+📧 manu.jayakumar0@gmail.com
 
