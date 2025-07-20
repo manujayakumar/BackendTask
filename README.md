@@ -4,9 +4,7 @@ This project implements the `/identify` endpoint for **Bitespeed's identity reco
 
 ## 🔗 Hosted API Endpoint
 
-> 🌐 [https://your-api.onrender.com/identify](https://your-api.onrender.com/identify)
-
-> 🛠️ **Replace the link above with your Render URL**
+> 🌐 [https://backendtask-wfm0.onrender.com/v1/identify](https://backendtask-wfm0.onrender.com/v1/identify)
 
 ---
 
@@ -15,6 +13,7 @@ This project implements the `/identify` endpoint for **Bitespeed's identity reco
 - **Backend:** Node.js + Express + TypeScript
 - **ORM:** Prisma
 - **Database:** PostgreSQL
+- **Database platform:** Supabase
 - **Deployment:** Render
 ---
 
@@ -42,9 +41,9 @@ Content-Type: application/json
 {
   "contact": {
     "primaryContatctId": 1,
-    "emails": ["lorraine@hillvalley.edu","mcfly@hillvalley.edu"],
+    "emails": ["mcfly@hillvalley.edu"],
     "phoneNumbers": ["123456"],
-    "secondaryContactIds": [23]
+    "secondaryContactIds": []
   }
 }
 ```
@@ -62,17 +61,17 @@ Content-Type: application/json
 
 ## 🛠️ Setup & Development
 
-1. Clone the Repoode
+1. **Clone the Repo**
 ```Bash
-git clone https://github.com/your-username/bitespeed-identity.git
+git clone https://github.com/manujayakumar/BackendTask.git
 
-cd bitespeed-identity
+cd BackendTask
 ```
-2. Install Dependencies
+2. **Install Dependencies**
 ```Bash
 npm install
 ```
-3. Set Up Environment Variables
+3. **Set Up Environment Variables** </br>
 Create a .env file:
 
 ```env
@@ -80,13 +79,13 @@ DATABASE_URL="postgresql://user:password@host:port/dbname?schema=public"
 DIRECT_URL="postgresql://user:password@host:port/dbname?schema=public"
 PORT=4000
 ```
-4. Setup Prisma and Migrate
+4. **Setup Prisma and Migrate**
 ```bash
 npx prisma init
 npx prisma generate
 npx prisma migrate dev --name init
 ```
-5. Run the Server
+5. **Run the Server**
 ```bash
 npm run dev
 ```
@@ -117,7 +116,7 @@ enum LinkPrecedence {
 Use Postman or curl to test:
 
 ```js
-curl -X POST https://your-api.onrender.com/identify \
+curl -X POST https://backendtask-wfm0.onrender.com/v1/identify \
   -H "Content-Type: application/json" \
   -d '{"email": "doc@brown.com", "phoneNumber": "999999"}'
 ```
@@ -130,15 +129,15 @@ curl -X POST https://your-api.onrender.com/identify \
 | george@hillvalley.edu	| 717171	| Merges biff's contact as secondary |
 
 ## 📤 Deployment
-This app is deployed using Render.com.
+This app is deployed using [Render.com](https://render.com/).
 
-Push to main automatically redeploys your app.
+Push to `main` automatically redeploys your app.
 
 ## 📚 References
 Way Of Life At Bitespeed
 
-🤝 Author
-Manu Jayakumar
-💼 LinkedIn
-📧 manujayakumar@example.com
+## 🤝 Author
+Manu Jayakumar</br>
+💼 [LinkedIn](https://www.linkedin.com/in/manu-jayakumar-228782145/)</br>
+📧 manu.jayakumar0@gmail.com
 
