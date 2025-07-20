@@ -2,12 +2,12 @@
   "name": "backendtask",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "service.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --build",
+    "build": "tsc",
     "dev": "nodemon",
-    "start": "ts-node ./src/service.ts"
+    "start": "node ./dist/service.js"
   },
   "keywords": [],
   "author": "",
