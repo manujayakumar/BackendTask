@@ -16,8 +16,6 @@ This project implements the `/identify` endpoint for **Bitespeed's identity reco
 - **ORM:** Prisma
 - **Database:** PostgreSQL
 - **Deployment:** Render
-- **Validation:** Zod or Express Validator
-
 ---
 
 ## 📘 API Specification
