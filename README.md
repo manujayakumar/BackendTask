@@ -44,7 +44,7 @@ Content-Type: application/json
 {
   "contact": {
     "primaryContatctId": 1,
-    "emails": ["lorraine@hillvalley.edu",           "mcfly@hillvalley.edu"],
+    "emails": ["lorraine@hillvalley.edu","mcfly@hillvalley.edu"],
     "phoneNumbers": ["123456"],
     "secondaryContactIds": [23]
   }
@@ -117,7 +117,7 @@ enum LinkPrecedence {
 ## 🧪 Testing
 Use Postman or curl to test:
 
-```json
+```js
 curl -X POST https://your-api.onrender.com/identify \
   -H "Content-Type: application/json" \
   -d '{"email": "doc@brown.com", "phoneNumber": "999999"}'
