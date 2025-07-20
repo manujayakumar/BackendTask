@@ -63,16 +63,11 @@ export const identifyService ={
                     }
                 }
             //check if new info and needs to be linked
-            // const existingContact = dulplicateContact?.some(contact =>{
-            //     contact.email === newData.email && contact.phoneNumber === newData.phoneNumber
-            // });
-
+        
             const emailExist = dulplicateContact.some(contact => contact.email === newData.email);
             const phoneExist = dulplicateContact.some(contact => contact.phoneNumber === newData.phoneNumber);
 
             const isNewInfo = !(emailExist && phoneExist);
-
-
 
             if(isNewInfo){
         

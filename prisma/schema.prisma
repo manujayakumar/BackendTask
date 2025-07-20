@@ -25,6 +25,9 @@ model Contact {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   deletedAt      DateTime?
+
+  @@index([email])
+  @@index([phoneNumber])
 }
 
 enum LinkPrecedence {
