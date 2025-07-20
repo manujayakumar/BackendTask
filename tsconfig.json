@@ -8,8 +8,8 @@
     "target": "es2020",
     "skipLibCheck": true,
     "strict": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "types": ["node"]
   },
